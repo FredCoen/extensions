@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userRemoving = exports.userRemoved = exports.userNoEmail = exports.userAdding = exports.userAdded = exports.start = exports.mailchimpNotInitialized = exports.initError = exports.init = exports.errorRemoveUser = exports.errorAddUser = exports.complete = exports.obfuscatedConfig = void 0;
+exports.userRemoving = exports.userRemoved = exports.userNoEmail = exports.userAdding = exports.userAdded = exports.start = exports.mailchimpNotInitialized = exports.initError = exports.init = exports.errorRemoveUser = exports.userNotInAudience = exports.errorAddUser = exports.userAlreadyInAudience = exports.complete = exports.obfuscatedConfig = void 0;
 const firebase_functions_1 = require("firebase-functions");
 const config_1 = require("./config");
 exports.obfuscatedConfig = {
@@ -25,8 +25,14 @@ exports.obfuscatedConfig = {
 exports.complete = () => {
     firebase_functions_1.logger.log("Completed execution of extension");
 };
+exports.userAlreadyInAudience = () => {
+    firebase_functions_1.logger.log("Attempted added user already in mailchimp audience");
+};
 exports.errorAddUser = (err) => {
     firebase_functions_1.logger.error("Error when adding user to Mailchimp audience", err);
+};
+exports.userNotInAudience = () => {
+    firebase_functions_1.logger.log("Attempted removal failed, member deletion not allowed. Probably because member has already been removed from audience");
 };
 exports.errorRemoveUser = (err) => {
     firebase_functions_1.logger.error("Error when removing user from Mailchimp audience", err);

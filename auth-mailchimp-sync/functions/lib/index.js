@@ -51,7 +51,7 @@ exports.addUserToList = functions.handler.auth.user.onCreate(async (user) => {
         logs.complete();
     }
     catch (err) {
-        logs.errorAddUser(err);
+        err.title === 'Member Exists' ? logs.userAlreadyInAudience() : logs.errorAddUser(err);
     }
 });
 exports.removeUserFromList = functions.handler.auth.user.onDelete(async (user) => {
@@ -76,6 +76,6 @@ exports.removeUserFromList = functions.handler.auth.user.onDelete(async (user) =
         logs.complete();
     }
     catch (err) {
-        logs.errorRemoveUser(err);
+        err.title === 'Method Not Allowed' ? logs.userNotInAudience() : logs.errorRemoveUser(err);
     }
 });
